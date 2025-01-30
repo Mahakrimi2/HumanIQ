@@ -1,6 +1,5 @@
-package pfe.HumanIQ.HumanIQ.models;
+package pfe.HumanIQ.HumanIQ.DTO;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

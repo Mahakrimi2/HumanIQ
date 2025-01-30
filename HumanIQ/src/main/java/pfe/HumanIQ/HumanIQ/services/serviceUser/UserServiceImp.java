@@ -1,4 +1,4 @@
-package pfe.HumanIQ.HumanIQ.services;
+package pfe.HumanIQ.HumanIQ.services.serviceUser;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

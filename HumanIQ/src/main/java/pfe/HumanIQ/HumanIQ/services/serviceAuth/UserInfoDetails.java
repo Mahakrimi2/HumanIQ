@@ -1,4 +1,4 @@
-package pfe.HumanIQ.HumanIQ.services;
+package pfe.HumanIQ.HumanIQ.services.serviceAuth;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,14 +11,16 @@ import java.util.List;
 
 public class UserInfoDetails implements UserDetails {
 
-    String userName;
-    String password;
-    List<GrantedAuthority> authorities;
-    public UserInfoDetails(User user){
-        userName= user.getUserName();
-        password= user.getPassword();
-        authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
+    private String userName;
+    private String password;
+    private List<GrantedAuthority> authorities;
+
+    public UserInfoDetails(User user) {
+        this.userName = user.getUserName();
+        this.password = user.getPassword();
+        this.authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name())); // Correction ici
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

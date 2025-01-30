@@ -1,4 +1,4 @@
-package pfe.HumanIQ.HumanIQ.models;
+package pfe.HumanIQ.HumanIQ.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package pfe.HumanIQ.HumanIQ.controllers;
+package pfe.HumanIQ.HumanIQ.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,11 +9,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pfe.HumanIQ.HumanIQ.models.authRequest;
-import pfe.HumanIQ.HumanIQ.models.LoginDTO;
+import pfe.HumanIQ.HumanIQ.DTO.LoginDTO;
 import pfe.HumanIQ.HumanIQ.models.User;
-import pfe.HumanIQ.HumanIQ.services.JwtService;
-import pfe.HumanIQ.HumanIQ.services.UserService;
+import pfe.HumanIQ.HumanIQ.services.serviceAuth.JwtService;
+import pfe.HumanIQ.HumanIQ.services.serviceUser.UserService;
 
 @CrossOrigin("*")
 @RestController

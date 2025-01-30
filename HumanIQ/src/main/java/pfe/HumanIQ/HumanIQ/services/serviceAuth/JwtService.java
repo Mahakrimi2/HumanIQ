@@ -1,4 +1,4 @@
-package pfe.HumanIQ.HumanIQ.services;
+package pfe.HumanIQ.HumanIQ.services.serviceAuth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
