@@ -34,7 +34,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         try {
-            System.out.println("Registering new user with email: " + user.getEmail());
+            System.out.println("Registering new user with email: " + user.getUsername());
             User createdUser = userService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
         } catch (Exception e) {
@@ -46,34 +46,34 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginDTO> login(@RequestBody authRequest authRequest) {
         try {
-            System.out.println("Login attempt for email: " + authRequest.getEmail());
+            System.out.println("Login attempt for email: " + authRequest.getUserName());
             
             // Vérifier si l'utilisateur existe
-            User user = userService.findByEmail(authRequest.getEmail())
+            User user = userService.findByUsername(authRequest.getUserName())
                 .orElseThrow(() -> {
-                    System.err.println("User not found: " + authRequest.getEmail());
+                    System.err.println("User not found: " + authRequest.getUserName());
                     return new BadCredentialsException("User not found");
                 });
             
             System.out.println("Found user in database: " + user.getEmail());
 
             Authentication authenticate = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword())
             );
 
             if (authenticate.isAuthenticated()) {
-                System.out.println("Authentication successful for user: " + authRequest.getEmail());
-                String token = jwtService.generateToken(authRequest.getEmail());
+                System.out.println("Authentication successful for user: " + authRequest.getUserName());
+                String token = jwtService.generateToken(authRequest.getUserName());
                 return ResponseEntity.ok(new LoginDTO(token));
             } else {
-                System.err.println("Authentication failed for user: " + authRequest.getEmail());
+                System.err.println("Authentication failed for user: " + authRequest.getUserName());
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginDTO("Invalid credentials"));
             }
         } catch (BadCredentialsException e) {
-            System.err.println("Bad credentials for user " + authRequest.getEmail() + ": " + e.getMessage());
+            System.err.println("Bad credentials for user " + authRequest.getUserName() + ": " + e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginDTO("Invalid credentials"));
         } catch (Exception e) {
-            System.err.println("Authentication error for user " + authRequest.getEmail() + ": " + e.getMessage());
+            System.err.println("Authentication error for user " + authRequest.getUserName() + ": " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new LoginDTO("Authentication failed"));
         }

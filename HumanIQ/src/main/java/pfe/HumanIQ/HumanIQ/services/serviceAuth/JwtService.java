@@ -18,11 +18,11 @@ import java.util.function.Function;
 public class JwtService {
     private static final String SECRET = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
 
-    public String generateToken(String email) {
+    public String generateToken(String userName) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(email)
+                .setSubject(userName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
@@ -60,11 +60,11 @@ public class JwtService {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String email = extractUserName(token); 
+        final String Username = extractUserName(token);
         boolean isExpired = isTokenExpired(token);
-        System.out.println("Email extrait du jeton: " + email);
+        System.out.println("Email extrait du jeton: " + Username);
         System.out.println("Le jeton est expiré: " + isExpired);
-        return (email.equals(userDetails.getUsername()) && !isExpired); 
+        return (Username.equals(userDetails.getUsername()) && !isExpired);
     }
 
     public String getValidationError(String token, UserDetails userDetails) {
