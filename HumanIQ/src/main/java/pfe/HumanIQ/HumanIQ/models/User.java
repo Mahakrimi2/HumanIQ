@@ -20,7 +20,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String userName;
+    private String username;
     private String gender;
     private String address;
     private String position;
@@ -43,10 +43,7 @@ public class User implements UserDetails {
         return password;
     }
 
-    @Override
-    public String getUsername() {
-        return userName;
-    }
+
 
     @Override
     public boolean isAccountNonExpired() {
@@ -76,12 +73,16 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public String getGender() {

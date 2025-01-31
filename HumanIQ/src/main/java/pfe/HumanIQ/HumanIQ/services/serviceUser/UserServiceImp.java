@@ -30,7 +30,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     public User createUser(User user) {
         // Vérifier si l'email existe déjà
-        if (userRepository.findByUserName(user.getUsername()).isPresent()) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
         // Encoder le mot de passe avant de sauvegarder
@@ -43,7 +43,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
         User existingUser = findById(user.getId());
         if(existingUser != null){
             // Vérifier si le nouvel email n'est pas déjà utilisé par un autre utilisateur
-            Optional<User> userWithEmail = userRepository.findByUserName(user.getUsername());
+            Optional<User> userWithEmail = userRepository.findByUsername(user.getUsername());
             if (userWithEmail.isPresent() && !userWithEmail.get().getId().equals(user.getId())) {
                 throw new RuntimeException("Email already exists");
             }
@@ -68,13 +68,13 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
-    public Optional<User> findByUsername(String userName) {
-        return userRepository.findByUserName(userName);
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return userRepository.findByUserName(userName)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + userName));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
     }
 }

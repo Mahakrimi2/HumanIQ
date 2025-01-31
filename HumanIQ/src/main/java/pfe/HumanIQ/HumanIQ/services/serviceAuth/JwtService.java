@@ -18,11 +18,11 @@ import java.util.function.Function;
 public class JwtService {
     private static final String SECRET = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
 
-    public String generateToken(String userName) {
+    public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(userName)
+                .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
@@ -76,5 +76,12 @@ public class JwtService {
             return "Le jeton est expiré.";
         }
         return "Le jeton est invalide pour une autre raison.";
+    }
+    // Rafraîchir un token expiré
+    public String refreshToken(String token, UserDetails userDetails) {
+        if (isTokenExpired(token)) {
+            return generateToken(userDetails.getUsername());
+        }
+        return token;
     }
 }

@@ -11,12 +11,12 @@ import java.util.List;
 
 public class UserInfoDetails implements UserDetails {
 
-    private String userName;
+    private String username;
     private String password;
     private List<GrantedAuthority> authorities;
 
     public UserInfoDetails(User user) {
-        this.userName = user.getUserName();
+        this.username = user.getUsername();
         this.password = user.getPassword();
         this.authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name())); // Correction ici
     }
@@ -33,7 +33,8 @@ public class UserInfoDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return username
+        ;
     }
 
     @Override
