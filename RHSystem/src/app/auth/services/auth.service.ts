@@ -14,7 +14,7 @@ export class AuthService {
 
   register(registerData: { email: string; password: string; }): Observable<any> {
     console.log('Envoi de la requête d\'inscription:', registerData);
-    return this.http.post<any>(`${this.apiUrl}/register`, { email: registerData.email, password: registerData.password })
+    return this.http.post<any>(`${this.apiUrl}/register`, { email: registerData.email, password: registerData.password , role:"Employee" })
       .pipe(
         catchError(this.handleError)
       );
