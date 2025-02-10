@@ -7,7 +7,7 @@ import { AuthRequest } from '../../models/auth.model';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
   }
 
@@ -35,14 +35,14 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.loading = true;
       this.errorMessage = '';
-      
+
       const authRequest: AuthRequest = {
-        email: this.loginForm.get('email')?.value,
-        password: this.loginForm.get('password')?.value
+        username: this.loginForm.get('email')?.value,
+        password: this.loginForm.get('password')?.value,
       };
-      
-      console.log('Tentative de connexion pour:', authRequest.email);
-      
+
+      console.log('Tentative de connexion pour:', authRequest.username);
+
       this.authService.login(authRequest).subscribe({
         next: (response) => {
           console.log('Connexion réussie');
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
           } else {
             this.errorMessage = 'Une erreur est survenue lors de la connexion';
           }
-        }
+        },
       });
     } else {
       this.errorMessage = 'Veuillez remplir tous les champs correctement';
@@ -68,5 +68,8 @@ export class LoginComponent implements OnInit {
 
   goToRegister() {
     this.router.navigate(['/auth/register']);
+  }
+  goToForgotPWD() {
+   this.router.navigate(['/auth/forgetPassword']);
   }
 }

@@ -12,12 +12,15 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  register(registerData: { email: string; password: string; }): Observable<any> {
+  register(registerData: { username: string; password: string; }): Observable<any> {
     console.log('Envoi de la requête d\'inscription:', registerData);
-    return this.http.post<any>(`${this.apiUrl}/register`, { email: registerData.email, password: registerData.password })
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http
+      .post<any>(`${this.apiUrl}/register`, {
+        email: registerData.username,
+        password: registerData.password,
+        role: 'Employee',
+      })
+      .pipe(catchError(this.handleError));
   }
 
   login(authRequest: AuthRequest): Observable<LoginDTO> {

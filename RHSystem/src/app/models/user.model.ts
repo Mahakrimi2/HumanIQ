@@ -1,5 +1,6 @@
 export interface User {
   id: number;
+  fullname: String;
   userName: string;
   gender: string;
   address: string;

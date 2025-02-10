@@ -44,38 +44,41 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginDTO> login(@RequestBody authRequest authRequest) {
-        try {
-            System.out.println("Login attempt for email: " + authRequest.getUserName());
-            
-            // Vérifier si l'utilisateur existe
-            User user = userService.findByUsername(authRequest.getUserName())
-                .orElseThrow(() -> {
-                    System.err.println("User not found: " + authRequest.getUserName());
-                    return new BadCredentialsException("User not found");
-                });
-            
-            System.out.println("Found user in database: " + user.getEmail());
-
-            Authentication authenticate = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword())
-            );
-
-            if (authenticate.isAuthenticated()) {
-                System.out.println("Authentication successful for user: " + authRequest.getUserName());
-                String token = jwtService.generateToken(authRequest.getUserName());
-                return ResponseEntity.ok(new LoginDTO(token));
-            } else {
-                System.err.println("Authentication failed for user: " + authRequest.getUserName());
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginDTO("Invalid credentials"));
-            }
-        } catch (BadCredentialsException e) {
-            System.err.println("Bad credentials for user " + authRequest.getUserName() + ": " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginDTO("Invalid credentials"));
-        } catch (Exception e) {
-            System.err.println("Authentication error for user " + authRequest.getUserName() + ": " + e.getMessage());
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new LoginDTO("Authentication failed"));
+public ResponseEntity<LoginDTO> login(@RequestBody AuthRequest authRequest) {
+    try {
+        if (authRequest.getUsername() == null || authRequest.getPassword() == null) {
+            return ResponseEntity.badRequest().body(new LoginDTO("Username and password must not be empty"));
         }
+
+        System.out.println("Login attempt for email: " + authRequest.getUsername());
+        
+        User user = userService.findByUsername(authRequest.getUsername())
+            .orElseThrow(() -> {
+                System.err.println("User not found: " + authRequest.getUsername());
+                return new BadCredentialsException("User not found");
+            });
+        
+        System.out.println("Found user in database: " + user.getUsername());
+
+        Authentication authenticate = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+        );
+
+        if (authenticate.isAuthenticated()) {
+            System.out.println("Authentication successful for user: " + authRequest.getUsername());
+            String token = jwtService.generateToken(authRequest.getUsername());
+            return ResponseEntity.ok(new LoginDTO(token));
+        } else {
+            System.err.println("Authentication failed for user: " + authRequest.getUsername());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginDTO("Invalid credentials"));
+        }
+    } catch (BadCredentialsException e) {
+        System.err.println("Bad credentials for user " + authRequest.getUsername() + ": " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginDTO("Invalid credentials"));
+    } catch (Exception e) {
+        System.err.println("Authentication error for user " + authRequest.getUsername() + ": " + e.getMessage());
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new LoginDTO("Authentication failed"));
     }
+}
 }

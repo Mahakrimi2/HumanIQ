@@ -16,20 +16,28 @@
             "outputPath": "dist/rhsystem",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.css",
-              "src/styles.css",
-              "src/assets/vendors/simplebar/simplebar.min.css"
+              
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+             
+              "src/assets/css/style.css",
+              "src/assets/vendor/bootstrap-icons/bootstrap-icons.css",
+              "src/assets/vendor/bootstrap/css/bootstrap.min.css",
+           
+              "src/assets/vendor/quill/quill.bubble.css",
+              "src/assets/vendor/quill/quill.snow.css",
+              "src/assets/vendor/remixicon/remixicon.css",
+        
+              "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js"
+            
+            ]
           },
           "configurations": {
             "production": {
@@ -79,18 +87,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         }
