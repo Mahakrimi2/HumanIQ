@@ -24,10 +24,13 @@ public class JwtService {
     private final UserRepo userRepo;
     private EmailService emailService;
 
+<<<<<<< HEAD
     public JwtService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
 
+=======
+>>>>>>> 1f5968aa5ca882e0386ff3c853744ff27514c4dc
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
@@ -94,6 +97,7 @@ public class JwtService {
         }
         return token;
     }
+<<<<<<< HEAD
 
 
     public Optional<User> findUserByUsername(String username) {
@@ -125,4 +129,6 @@ public class JwtService {
 
         emailService.sendSimpleMail(details);
     }
+=======
+>>>>>>> 1f5968aa5ca882e0386ff3c853744ff27514c4dc
 }

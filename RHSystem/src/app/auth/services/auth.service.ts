@@ -14,6 +14,7 @@ export class AuthService {
 
   register(registerData: { username: string; password: string; }): Observable<any> {
     console.log('Envoi de la requête d\'inscription:', registerData);
+<<<<<<< HEAD
     return this.http
       .post<any>(`${this.apiUrl}/register`, {
         email: registerData.username,
@@ -21,6 +22,12 @@ export class AuthService {
         role: 'Employee',
       })
       .pipe(catchError(this.handleError));
+=======
+    return this.http.post<any>(`${this.apiUrl}/register`, { email: registerData.email, password: registerData.password , role:"Employee" })
+      .pipe(
+        catchError(this.handleError)
+      );
+>>>>>>> 1f5968aa5ca882e0386ff3c853744ff27514c4dc
   }
 
   login(authRequest: AuthRequest): Observable<LoginDTO> {
