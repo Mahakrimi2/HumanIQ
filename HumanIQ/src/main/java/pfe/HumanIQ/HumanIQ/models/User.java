@@ -22,6 +22,7 @@ public class User implements UserDetails {
     private Long id;
     private String username;
     private String gender;
+    private String fullname;
     private String address;
     private String position;
     private Double salary;
@@ -147,5 +148,13 @@ public class User implements UserDetails {
 
     public UserRole getRole() {
         return this.role;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 }

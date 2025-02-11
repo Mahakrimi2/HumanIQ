@@ -1,5 +1,6 @@
 package pfe.HumanIQ.HumanIQ.config;
 
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pfe.HumanIQ.HumanIQ.DTO.LoginDTO;
+import pfe.HumanIQ.HumanIQ.emailConfig.EmailService;
 import pfe.HumanIQ.HumanIQ.models.User;
 import pfe.HumanIQ.HumanIQ.services.serviceAuth.JwtService;
 import pfe.HumanIQ.HumanIQ.services.serviceUser.UserService;
@@ -23,12 +25,14 @@ public class AuthController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final EmailService emailService;
 
     @Autowired
-    public AuthController(UserService userService, AuthenticationManager authenticationManager, JwtService jwtService) {
+    public AuthController(UserService userService, AuthenticationManager authenticationManager, JwtService jwtService,EmailService emailService) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.emailService=emailService;
     }
 
     @PostMapping("/register")
@@ -81,4 +85,6 @@ public ResponseEntity<LoginDTO> login(@RequestBody AuthRequest authRequest) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new LoginDTO("Authentication failed"));
     }
 }
+
+
 }

@@ -13,4 +13,5 @@ public interface EmailService {
     // Method 2
     // To send an email with attachment
     String sendMailWithAttachment(EmailDetails details, MultipartFile attachment);
+
 }

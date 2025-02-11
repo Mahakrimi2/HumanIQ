@@ -34,7 +34,7 @@ public class EmailServiceImpl implements EmailService {
             mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(sender);
             mimeMessageHelper.setTo(details.getRecipient());
-            mimeMessageHelper.setText(details.getMsgBody());
+            mimeMessageHelper.setText(details.getMsgBody(),true);
             mimeMessageHelper.setSubject(details.getSubject());
 
             mimeMessageHelper.addAttachment(attachment.getOriginalFilename(), attachment);
@@ -57,4 +57,17 @@ public class EmailServiceImpl implements EmailService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'sendMailWithAttachment'");
     }
+
+    public void sendPasswordResetEmail(String recipient, String token) {
+        String resetLink = "http://localhost:4200/reset-password?token=" + token;
+        String message = "Cliquez sur le lien suivant pour réinitialiser votre mot de passe : <a href='" + resetLink + "'>Réinitialiser mon mot de passe</a>";
+
+        EmailDetails details = new EmailDetails();
+        details.setRecipient(recipient);
+        details.setSubject("Réinitialisation de votre mot de passe");
+        details.setMsgBody(message);
+
+        sendSimpleMail(details);
+    }
+
 }

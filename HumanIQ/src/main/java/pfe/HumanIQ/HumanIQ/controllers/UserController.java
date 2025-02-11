@@ -1,22 +1,28 @@
 package pfe.HumanIQ.HumanIQ.controllers;
 
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pfe.HumanIQ.HumanIQ.models.User;
+import pfe.HumanIQ.HumanIQ.services.serviceAuth.JwtService;
 import pfe.HumanIQ.HumanIQ.services.serviceUser.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
+    private final JwtService jwtService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtService jwtService) {
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
     @GetMapping
@@ -48,4 +54,25 @@ public class UserController {
         User user = userService.findById(id);
         return ResponseEntity.ok(user);
     }
+
+   @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam String username) {
+            Optional<User> userOptional=jwtService.findUserByUsername(username);
+            if(!userOptional.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("user not found");
+
+            }
+            User user=userOptional.get();
+            String tempPassword=jwtService.generateTemporaryPassword();
+            jwtService.hashAndSavePassword(user, tempPassword);
+
+            try{
+                jwtService.sendTemporaryPasswordEmail(user.getEmail(),tempPassword);
+                return ResponseEntity.ok("Temporary password sent to email");
+
+            }catch (MessagingException e){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("failed to send email");
+            }
+   }
+
 }
