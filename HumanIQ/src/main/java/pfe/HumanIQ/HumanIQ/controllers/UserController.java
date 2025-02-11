@@ -9,6 +9,7 @@ import pfe.HumanIQ.HumanIQ.models.User;
 import pfe.HumanIQ.HumanIQ.services.serviceAuth.JwtService;
 import pfe.HumanIQ.HumanIQ.services.serviceUser.UserService;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    
+    
     private final JwtService jwtService;
 
     @Autowired
@@ -56,10 +59,10 @@ public class UserController {
     }
 
    @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestParam String username) {
-            Optional<User> userOptional=jwtService.findUserByUsername(username);
+    public ResponseEntity<Object> resetPassword(@RequestParam String username) {
+            Optional<User> userOptional=jwtService.findUserByEmail(username);
             if(!userOptional.isPresent()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("user not found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("msg", "user not found"));
 
             }
             User user=userOptional.get();

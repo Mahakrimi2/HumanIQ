@@ -85,9 +85,5 @@ public ResponseEntity<LoginDTO> login(@RequestBody AuthRequest authRequest) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new LoginDTO("Authentication failed"));
     }
 }
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 1f5968aa5ca882e0386ff3c853744ff27514c4dc
 }

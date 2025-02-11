@@ -6,6 +6,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.mail.MessagingException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -22,15 +24,16 @@ import java.util.function.Function;
 public class JwtService {
     private static final String SECRET = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
     private final UserRepo userRepo;
+    
+    @Autowired
     private EmailService emailService;
 
-<<<<<<< HEAD
+
     public JwtService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
 
-=======
->>>>>>> 1f5968aa5ca882e0386ff3c853744ff27514c4dc
+
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
@@ -97,13 +100,16 @@ public class JwtService {
         }
         return token;
     }
-<<<<<<< HEAD
+
 
 
     public Optional<User> findUserByUsername(String username) {
         return userRepo.findByUsername(username);
     }
 
+    public Optional<User> findUserByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
     public String generateTemporaryPassword() {
         int length = 10;
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -129,6 +135,5 @@ public class JwtService {
 
         emailService.sendSimpleMail(details);
     }
-=======
->>>>>>> 1f5968aa5ca882e0386ff3c853744ff27514c4dc
+
 }
